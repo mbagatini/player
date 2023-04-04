@@ -7,7 +7,7 @@ interface PaginationProps {
 }
 
 export function resolvePagination(params: ListParams): PaginationProps {
-	const limit = 2
+	const limit = 10
 	const page = Number(params.page ?? 1)
 	const offset = limit * (page - 1)
 
