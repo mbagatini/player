@@ -8,10 +8,10 @@ export type SongCreationProps = {
 }
 
 export type Song = {
-	id: string
+	id: number
 	title: string
 	releaseDate: Date
 	keywords: string[]
-	authorId: string
+	authorId: number
 	author?: Author
 }
