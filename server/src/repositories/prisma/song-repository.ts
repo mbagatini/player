@@ -25,6 +25,34 @@ export class PrismaSongRepository implements SongRepository {
 		return song
 	}
 
+	async update(id: number, data: Partial<SongCreationProps>): Promise<Song> {
+		const updateData: any = {
+			...data,
+		}
+
+		if (data.author) {
+			updateData.author = {
+				connectOrCreate: {
+					where: {
+						name: data.author,
+					},
+					create: {
+						name: data.author,
+					},
+				},
+			}
+		}
+
+		return await prisma.song.update({
+			where: { id },
+			data: updateData,
+		})
+	}
+
+	async findById(id: number): Promise<Song | undefined> {
+		return (await prisma.song.findUnique({ where: { id } })) || undefined
+	}
+
 	async findByTitleAndAuthor(
 		title: string,
 		author: string,
