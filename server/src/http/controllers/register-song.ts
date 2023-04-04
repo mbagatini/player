@@ -5,15 +5,19 @@ import { RegisterSongUseCase } from '../../use-cases/register-song-usecase'
 
 export async function registerSong(request: Request, response: Response) {
 	const songBody = z.object({
-		title: z.string({
-			required_error: 'Title is required',
-		}),
+		title: z
+			.string({
+				required_error: 'Title is required',
+			})
+			.min(1),
 		releaseDate: z.coerce.date({
 			required_error: 'Release date is required',
 		}),
-		author: z.string({
-			required_error: 'Author is required',
-		}),
+		author: z
+			.string({
+				required_error: 'Author is required',
+			})
+			.min(1),
 		keywords: z.string().array().optional(),
 	})
 
