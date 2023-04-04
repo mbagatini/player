@@ -49,6 +49,10 @@ export class PrismaSongRepository implements SongRepository {
 		})
 	}
 
+	async delete(id: number): Promise<void> {
+		await prisma.song.delete({ where: { id } })
+	}
+
 	async findById(id: number): Promise<Song | undefined> {
 		return (await prisma.song.findUnique({ where: { id } })) || undefined
 	}
