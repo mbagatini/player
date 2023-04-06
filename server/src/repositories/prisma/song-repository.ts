@@ -78,23 +78,33 @@ export class PrismaSongRepository implements SongRepository {
 
 		const { title, author, keywords, releaseDate } = params
 
-		const whereClause: any = {}
+		const filters: any[] = []
 
-		if (title) whereClause.title = { contains: title, mode: 'insensitive' }
+		if (title) filters.push({ title: { contains: title, mode: 'insensitive' } })
+
 		if (author)
-			whereClause.author = { name: { contains: author, mode: 'insensitive' } }
+			filters.push({
+				author: { name: { contains: author, mode: 'insensitive' } },
+			})
+
+		if (releaseDate)
+			filters.push({ releaseDate: { equals: new Date(releaseDate) } })
+
 		if (keywords)
-			whereClause.keywords = {
-				hasSome: keywords,
-			}
-		if (releaseDate) whereClause.releaseDate = { equals: new Date(releaseDate) }
+			filters.push({
+				keywords: {
+					hasSome: keywords,
+				},
+			})
+
+		const whereConditions = filters.length ? { OR: filters } : {}
 
 		const count = await prisma.song.count({
-			where: whereClause,
+			where: whereConditions,
 		})
 
 		const songs = await prisma.song.findMany({
-			where: whereClause,
+			where: whereConditions,
 			include: { author: true },
 			take: pagination.limit,
 			skip: pagination.offset,
