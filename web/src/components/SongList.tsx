@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { api } from '../services/api'
 import { Song } from '../dto/song'
 import { Button } from './Button'
 import { Song as SongInfo } from './Song'
@@ -22,6 +23,19 @@ export function SongList() {
             }
         }
 
+        api.get('/songs', { params })
+            .then((result) => {
+                setSongsCount(result.data.total)
+
+                if (page === 1) {
+                    setSongs(result.data.results)
+                } else {
+                    setSongs((current) => [...current, ...result.data.results])
+                }
+            })
+            .catch((error) => {
+                alert(error)
+            })
     }, [page, search])
 
     useEffect(() => {
