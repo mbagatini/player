@@ -7,8 +7,10 @@ import { Song as SongInfo } from '../components/Song'
 import { SongSearchForm } from '../components/SongSearchForm'
 import { RegisterSongForm } from '../components/RegisterSongForm'
 import { Header } from '../components/Header'
+import { useToast } from '../hooks/useToast'
 
 export function SongList() {
+    const { addToast } = useToast()
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState('')
     const [songsCount, setSongsCount] = useState(0)
@@ -39,7 +41,11 @@ export function SongList() {
                 }
             })
             .catch((error) => {
-                alert(error)
+                addToast({
+                    toastType: 'error',
+                    title: 'Isso é constrangedor...',
+                    message: error.message,
+                })
             })
     }, [page, search])
 

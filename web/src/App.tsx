@@ -1,6 +1,11 @@
+import { ToastProvider } from './hooks/useToast'
 import { SongList } from './pages/SongList'
 import './styles/global.css'
 
 export function App() {
-    return <SongList />
+    return (
+        <ToastProvider>
+            <SongList />
+        </ToastProvider>
+    )
 }

@@ -5,6 +5,8 @@ import { ArrayInput, useArrayInput } from './Form/ArrayInput'
 import { Input } from './Form/Input'
 import { Button } from './Button'
 import closeIcon from '../assets/x.svg'
+import { useToast } from '../hooks/useToast'
+import { useState } from 'react'
 
 type FormFields = {
     title: string
@@ -22,6 +24,9 @@ export function RegisterSongForm({
     setIsOpen,
     refreshResults,
 }: RegisterSongFormProps) {
+    const { addToast } = useToast()
+    const [isLoading, setIsLoading] = useState(false)
+
     const {
         register,
         handleSubmit,
@@ -32,6 +37,7 @@ export function RegisterSongForm({
     const keywordsControl = useArrayInput([])
 
     async function handleRegisterSong(data: FormFields) {
+        setIsLoading(true)
         const songData = {
             title: data.title,
             author: data.author,
@@ -42,13 +48,25 @@ export function RegisterSongForm({
         try {
             await api.post('/songs', songData)
 
+            addToast({
+                toastType: 'message',
+                title: 'Uhu!',
+                message: 'Sua música foi adicionada com sucesso',
+            })
+
             setTimeout(() => {
                 refreshResults()
+                setIsLoading(false)
                 setIsOpen(false)
                 reset()
             }, 1500)
         } catch (error) {
-            alert(error.message)
+            setIsLoading(false)
+            addToast({
+                toastType: 'error',
+                title: 'Isso é constrangedor...',
+                message: 'Não foi possível adicionar sua música',
+            })
         }
     }
 
@@ -102,7 +120,10 @@ export function RegisterSongForm({
                 </Button>
             </form>
 
-            <Dialog.Close className="absolute top-6 right-6 rounded-md">
+            <Dialog.Close
+                className="absolute top-6 right-6 rounded-md"
+                disabled={isLoading}
+            >
                 <img src={closeIcon} width={24} alt="Clear search icon" />
             </Dialog.Close>
         </>
