@@ -18,7 +18,7 @@ export function SongSearchForm({ setQuerySearch }: SongSearchFormProps) {
     return (
         <form
             onSubmit={handleFormSubmit}
-            className="w-1/2 flex bg-slate-100 border border-slate-200 rounded-full relative"
+            className="w-1/2 flex bg-slate-100 border border-slate-300 rounded-full relative"
         >
             <input
                 type="text"
@@ -31,7 +31,7 @@ export function SongSearchForm({ setQuerySearch }: SongSearchFormProps) {
             {search && (
                 <button
                     type="button"
-                    className="h-full p-2 absolute right-10"
+                    className="h-full px-4 absolute right-10"
                     onClick={() => {
                         setSearch('')
                         setQuerySearch('')
@@ -41,7 +41,10 @@ export function SongSearchForm({ setQuerySearch }: SongSearchFormProps) {
                 </button>
             )}
 
-            <button type="submit" className="h-full p-2 rounded-r-full">
+            <button
+                type="submit"
+                className="pl-2 pr-4 py-2 rounded-r-full hover:bg-slate-200 transition-colors"
+            >
                 <img src={searchIcon} width={24} alt="Search icon" />
             </button>
         </form>

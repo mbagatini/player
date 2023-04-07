@@ -56,64 +56,58 @@ export function SongList() {
     return (
         <>
             <Header />
-            <div className="w-full max-w-4xl p-4 m-auto">
-                <section className="flex flex-col">
-                    <div className="my-6 flex justify-between items-center">
-                        <SongSearchForm
-                            setQuerySearch={(query) => {
-                                setPage(1)
-                                setSearch(query)
-                            }}
-                        />
+            <section className="flex flex-col w-full max-w-4xl p-4 m-auto mt-20 relative">
+                <div className="my-6 flex justify-between items-center">
+                    <SongSearchForm
+                        setQuerySearch={(query) => {
+                            setPage(1)
+                            setSearch(query)
+                        }}
+                    />
 
-                        <Dialog.Root
-                            open={registerSongModalIsOpen}
-                            onOpenChange={setRegisterSongModalIsOpen}
-                        >
-                            <Dialog.Trigger asChild>
-                                <Button type="button">
-                                    + adicionar música
-                                </Button>
-                            </Dialog.Trigger>
+                    <Dialog.Root
+                        open={registerSongModalIsOpen}
+                        onOpenChange={setRegisterSongModalIsOpen}
+                    >
+                        <Dialog.Trigger asChild>
+                            <Button type="button">+ adicionar música</Button>
+                        </Dialog.Trigger>
 
-                            <Dialog.Portal>
-                                <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0" />
-                                <Dialog.Content className="absolute bg-slate-200 p-10 rounded-2xl w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                                    <RegisterSongForm
-                                        setIsOpen={setRegisterSongModalIsOpen}
-                                        refreshResults={handleSongsSearch}
-                                    />
-                                </Dialog.Content>
-                            </Dialog.Portal>
-                        </Dialog.Root>
-                    </div>
-
-                    {!songs.length ? (
-                        <p className="p-4">
-                            ...ops, nenhuma música foi encontrada
-                        </p>
-                    ) : (
-                        <ul className="flex flex-col gap-2">
-                            {songs.map((song, idx) => (
-                                <SongInfo
-                                    key={song.id}
-                                    index={idx + 1}
-                                    data={song}
+                        <Dialog.Portal>
+                            <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0 z-10" />
+                            <Dialog.Content className="absolute z-20 top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-200 p-10 rounded-2xl w-full max-w-md">
+                                <RegisterSongForm
+                                    setIsOpen={setRegisterSongModalIsOpen}
+                                    refreshResults={handleSongsSearch}
                                 />
-                            ))}
-                        </ul>
-                    )}
+                            </Dialog.Content>
+                        </Dialog.Portal>
+                    </Dialog.Root>
+                </div>
 
-                    {songs.length < songsCount && (
-                        <Button
-                            className="my-4 mx-auto"
-                            onClick={() => setPage(page + 1)}
-                        >
-                            ver mais ...
-                        </Button>
-                    )}
-                </section>
-            </div>
+                {!songs.length ? (
+                    <p className="p-4">...ops, nenhuma música foi encontrada</p>
+                ) : (
+                    <ul className="flex flex-col gap-2 max-w-full">
+                        {songs.map((song, idx) => (
+                            <SongInfo
+                                key={song.id}
+                                index={idx + 1}
+                                data={song}
+                            />
+                        ))}
+                    </ul>
+                )}
+
+                {songs.length < songsCount && (
+                    <Button
+                        className="my-4 mx-auto"
+                        onClick={() => setPage(page + 1)}
+                    >
+                        ver mais ...
+                    </Button>
+                )}
+            </section>
         </>
     )
 }

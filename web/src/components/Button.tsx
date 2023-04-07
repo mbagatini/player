@@ -13,7 +13,7 @@ export function Button({
 }: ButtonProps) {
     const colorStyle =
         styleType === 'primary'
-            ? 'bg-purple-600 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-600 hover:to-70%'
+            ? 'bg-purple-600 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-700 hover:to-70%'
             : 'bg-slate-400 hover:bg-slate-500'
 
     return (

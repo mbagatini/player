@@ -111,7 +111,7 @@ export function RegisterSongForm({
 
                 <ArrayInput
                     label="Palavras-chave"
-                    placeholder="Digite e aperte espaço para adicionar"
+                    placeholder="Aperte espaço para adicionar"
                     arrayInputControl={keywordsControl}
                 />
 

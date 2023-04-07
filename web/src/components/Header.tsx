@@ -1,6 +1,6 @@
 export function Header() {
     return (
-        <header className="w-screen h-20 px-4 bg-slate-50 border border-b-slate-200">
+        <header className="w-screen h-20 px-4 bg-slate-50 border border-b-slate-200 fixed top-0 z-10">
             <div className="h-full w-full max-w-4xl m-auto flex items-center px-2 py-4">
                 <img src="/vite.svg" alt="Player" />
                 <p className="font-extrabold text-2xl ml-2 text-purple-600">
