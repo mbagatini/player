@@ -18,6 +18,26 @@ export function SongList() {
     const [registerSongModalIsOpen, setRegisterSongModalIsOpen] =
         useState(false)
 
+    async function handleDeleteSong(id: number) {
+        try {
+            const index = songs.findIndex((song) => song.id === id)
+
+            await api.delete(`/songs/${id}`)
+
+            setSongsCount((prevValue) => prevValue - 1)
+            setSongs((prevValues) => [
+                ...prevValues.slice(0, index),
+                ...prevValues.slice(index + 1),
+            ])
+        } catch (error) {
+            addToast({
+                toastType: 'error',
+                title: 'Isso é constrangedor...',
+                message: 'Não foi possível remover a música da sua biblioteca',
+            })
+        }
+    }
+
     const handleSongsSearch = useCallback(() => {
         let params: Record<any, any> = { page }
 
@@ -78,7 +98,7 @@ export function SongList() {
                             <Dialog.Content className="absolute z-20 top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-200 p-10 rounded-2xl w-full max-w-md">
                                 <RegisterSongForm
                                     setIsOpen={setRegisterSongModalIsOpen}
-                                    refreshResults={handleSongsSearch}
+                                    refreshResults={() => setPage(1)}
                                 />
                             </Dialog.Content>
                         </Dialog.Portal>
@@ -94,6 +114,7 @@ export function SongList() {
                                 key={song.id}
                                 index={idx + 1}
                                 data={song}
+                                handleDeletion={() => handleDeleteSong(song.id)}
                             />
                         ))}
                     </ul>
