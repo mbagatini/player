@@ -1,9 +1,10 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { useForm } from 'react-hook-form'
+import { api } from '../services/api'
+import { ArrayInput, useArrayInput } from './Form/ArrayInput'
 import { Input } from './Form/Input'
 import { Button } from './Button'
 import closeIcon from '../assets/x.svg'
-import { ArrayInput, useArrayInput } from './Form/ArrayInput'
 
 type FormFields = {
     title: string
@@ -12,7 +13,15 @@ type FormFields = {
     keywords: string[]
 }
 
-export function RegisterSongForm() {
+interface RegisterSongFormProps {
+    setIsOpen(value: boolean): void
+    refreshResults: () => void
+}
+
+export function RegisterSongForm({
+    setIsOpen,
+    refreshResults,
+}: RegisterSongFormProps) {
     const {
         register,
         handleSubmit,
@@ -30,11 +39,17 @@ export function RegisterSongForm() {
             keywords: keywordsControl.values,
         }
 
-        console.log(songData)
+        try {
+            await api.post('/songs', songData)
 
-        setTimeout(() => {
-            reset()
-        }, 1500)
+            setTimeout(() => {
+                refreshResults()
+                setIsOpen(false)
+                reset()
+            }, 1500)
+        } catch (error) {
+            alert(error.message)
+        }
     }
 
     return (

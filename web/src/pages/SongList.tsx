@@ -13,6 +13,8 @@ export function SongList() {
     const [search, setSearch] = useState('')
     const [songsCount, setSongsCount] = useState(0)
     const [songs, setSongs] = useState<Song[]>([])
+    const [registerSongModalIsOpen, setRegisterSongModalIsOpen] =
+        useState(false)
 
     const handleSongsSearch = useCallback(() => {
         let params: Record<any, any> = { page }
@@ -58,7 +60,10 @@ export function SongList() {
                             }}
                         />
 
-                        <Dialog.Root>
+                        <Dialog.Root
+                            open={registerSongModalIsOpen}
+                            onOpenChange={setRegisterSongModalIsOpen}
+                        >
                             <Dialog.Trigger asChild>
                                 <Button type="button">
                                     + adicionar música
@@ -68,7 +73,10 @@ export function SongList() {
                             <Dialog.Portal>
                                 <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0" />
                                 <Dialog.Content className="absolute bg-slate-200 p-10 rounded-2xl w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                                    <RegisterSongForm />
+                                    <RegisterSongForm
+                                        setIsOpen={setRegisterSongModalIsOpen}
+                                        refreshResults={handleSongsSearch}
+                                    />
                                 </Dialog.Content>
                             </Dialog.Portal>
                         </Dialog.Root>
