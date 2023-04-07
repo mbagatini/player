@@ -59,7 +59,7 @@ export function RegisterSongForm({
                 setIsLoading(false)
                 setIsOpen(false)
                 reset()
-            }, 1500)
+            }, 500)
         } catch (error) {
             setIsLoading(false)
             addToast({
